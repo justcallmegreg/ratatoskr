@@ -14,7 +14,9 @@ class OperationRegistry:
     @classmethod
     def register_operation(cls, operation_wrapper):
         if not issubclass(operation_wrapper.__class__, OperationWrapper):
-            raise InvalidOperationWrapperError("operation_wrapper must be a subclass of OperationWrapper")
+            raise InvalidOperationWrapperError(
+                'operation_wrapper must be a subclass of OperationWrapper'
+            )
         operation_name = operation_wrapper.get_wrapped_operation_name()
         OperationRegistry.registry[operation_name] = operation_wrapper
 

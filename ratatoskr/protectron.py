@@ -31,8 +31,9 @@ def protectron(input_schema, output_schema=EmptySchema()):
         def func_wrapper(*args, **kwargs):
             args_dict = _args_to_dict(func, args)
             arguments = _merge_args_with_kwargs(args_dict, kwargs)
-            input_schema(arguments)
-            return output_schema(func(*args, **kwargs))
+            arguments = input_schema(arguments)
+            output = output_schema(func(*args, **kwargs))
+            return output
 
         def peel_decorator():
             return func

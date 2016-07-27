@@ -1,4 +1,5 @@
 import sys
+from functools import wraps
 
 
 def args_to_dict(func, args):
@@ -20,3 +21,22 @@ def merge_args_with_kwargs(args_dict, kwargs_dict):
     ret = args_dict.copy()
     ret.update(kwargs_dict)
     return ret
+
+
+def doublewrap(func):
+    '''
+    a decorator decorator, allowing the decorator to be used as:
+    @decorator(with, arguments, and=kwargs)
+    or
+    @decorator
+    '''
+    @wraps(func)
+    def new_dec(*args, **kwargs):
+        if len(args) == 1 and len(kwargs) == 0 and callable(args[0]):
+            # actual decorated function
+            return func(args[0])
+        else:
+            # decorator arguments
+            return lambda realf: func(realf, *args, **kwargs)
+
+    return new_dec

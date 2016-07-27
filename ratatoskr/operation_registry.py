@@ -1,6 +1,6 @@
 from protectron import protectron
 from schema import ValidOperationRegistryEventSchema
-from operation_wrappers.base_wrappers import OperationWrapper, LocalOperation
+from operation_wrappers.base_wrappers import OperationWrapper
 
 
 class InvalidOperationWrapperError(Exception):
@@ -41,24 +41,4 @@ class OperationRegistry:
         return operation_wrapper.call(**arguments)
 
 
-def register_operation(operation_wrapper=LocalOperation()):
 
-    def register_operation_decorator(func):
-
-        operation_wrapper.load_wrapped_operation(func)
-        OperationRegistry.register_operation(operation_wrapper)
-
-        def func_wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
-
-        def peel_decorator():
-            return func
-
-        func_wrapper.peel_decorator = peel_decorator
-        return func_wrapper
-
-    return register_operation_decorator
-
-
-def dispatch_event(event):
-    return OperationRegistry.call(event)

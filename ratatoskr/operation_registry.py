@@ -60,5 +60,5 @@ def register_operation(operation_wrapper=LocalOperation()):
     return register_operation_decorator
 
 
-def dispatch_operation(event):
+def dispatch_event(event):
     return OperationRegistry.call(event)

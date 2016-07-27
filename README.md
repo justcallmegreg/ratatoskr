@@ -1,171 +1,16 @@
-# ratatoskr
+#ratatoskr
 
-### Getting started...
+__Ratatoskr__ is a library written in Python to make the development of AWS Lambdas easier and more secure. It supports implementing "singleshot" operations that can be reached from an AWS Lambda function and validating the input parameters to avoid unnecessary boilerplate for argument checking. 
 
-#### Register LocalOperation
+## How to use?
 
-```python
-
-@register_operation
-def foo(a):
-    print a
-
-
-@register_operation
-def bar(a):
-    return a
-
-
-def handler(event, context):
-    dispatch_operation(event)
-
-```
-
-##### Example `event`
-
-```json
-
-{
-  "operation": "foo",
-  "args" : {
-    "a": 42
-  }
-}
-
-```
-
-#### Renaming operation
+### Protect arguments
 
 ```python
 
-@register_operation(LocalOperation('dummy_operation'))
-def foo(a):
-    print a
+from ratatoskr import protectron
+from ratatoskr.schema import SchemaValidationError
 
-
-@register_operation
-def bar(a):
-    return a
-
-
-def handler(event, context):
-    dispatch_operation(event)
-
-```
-
-##### Example `event`
-
-```json
-
-{
-  "operation": "dummy_operation",
-  "args" : {
-    "a": 42
-  }
-}
-
-```
-
-#### Register RemoteOperation (AWSLambdaOperation)
-
-##### DummyLambdaFunction
-```python
-
-@register_operation(AWSLambdaOperation(region='eu-central-1', lambda_function='AnotherLambdaFunction'))
-def foo(a):
-    pass
-
-
-@register_operation
-def bar(a):
-    return a
-
-
-def handler(event, context):
-    dispatch_operation(event)
-
-```
-
-##### AnotherLambdaFunction
-```python
-
-@register_operation
-def foo(a):
-    print a
-
-
-def handler(event, context):
-    dispatch_operation(event)
-
-```
-
-
-##### Example `event`
-
-```json
-
-{
-  "operation": "foo",
-  "args" : {
-    "a": 42
-  }
-}
-
-```
-
-#### Validating inputs (using voluptuous)
-
-```python
-
-@register_operation
-@protectron(voluptuous.Schema(int))
-def foo(a):
-    print a
-
-
-def handler(event, context):
-    dispatch_operation(event)
-
-```
-
-##### Matching `event`
-
-```json
-
-{
-  "operation": "foo",
-  "args" : {
-    "a": 42
-  }
-}
-
-```
-
-##### Unmatching `event`
-
-The following payload will result `voluptuous.Invalid` exception.
-
-
-```json
-
-{
-  "operation": "foo",
-  "args" : {
-    "a": "42"
-  }
-}
-
-```
-
-#### Write your own validator...
-
-Validator object must:
-
-* have `__call__` method defined
-* raise exception on failed validation (preferred schema.SchemaValidationError)
-* return the value on success
-
-```python
 
 def is_int(n):
     if not isinstance(n, int):
@@ -173,29 +18,105 @@ def is_int(n):
     return n
 
 
-@register_operation
 @protectron(is_int)
-def foo(a):
-    print a
+def multiple_by_two(num):
+    return 2 * num
 
 
-def handler(event, context):
-    dispatch_operation(event)
+multiple_by_two(42) ====> 42
+multiple_by_two("42") ====> Exception: SchemaValidationError("expected int for data['num']"
 
 ```
 
-#### Validating outputs (using voluptuous)
+### Dispatch event
 
 ```python
 
+from ratatoskr import register_operation, dispatch_event
+
+
 @register_operation
-@protectron(input_schema=voluptuous.Schema(int), output_schema=voluptuous.Schema(int))
-def bar(a):
-    return a
+def return_me(a):
+    print a
 
 
+@register_operation
+def return_24():
+    return 24
+
+
+### AWS Lambda handler
 def handler(event, context):
     dispatch_operation(event)
 
+
+### Example event and handler call
+
+example_event = {
+    'operation': 'return_me',
+    'args': {
+        'a': 42
+    }
+}
+
+handler(exampe_event, context)  ===> returns 42
+
+another_example_event = {
+    'operation': 'return_24',
+    'args': {}
+}
+
+handler(another_example_Event, context)  ===> returns 24
 ```
 
+## Installation
+
+The package has not been deployed to `pip` yet.
+You can install it by:
+
+* cloning the repository and run `pip install -t .`
+* __OR__ run `pip install git+https://github.com/ngergo/ratatoskr.git`
+
+## Tests
+
+__Writing tests is good!__ They protect you from doing things you don't want... It's not different at `ratatoskr`. Tests are written using `pytest` and run via `tox`.
+`tox` also checks for style using `flake8` and does code coverage report using `coverage`.
+
+* Run `tox` command in the root directory of the project to run all the tests. 
+* You can specify which interpreters should be used by `tox -e [pyX.X]`
+* Read more about [__tox__](https://testrun.org/tox/latest/)
+
+PR's for testing new cases is always welcome!
+
+### Contribute
+
+* Fork the repository on GitHub.
+* Write a test which shows that the bug was fixed or that the feature works as expected.
+
+  - Use ``tox`` command to run all the tests in all locally available python version.
+
+* Send a pull request and bug the maintainer until it gets merged and published. :).
+
+For more instructions see `TESTING.rst`.
+
+## License
+
+Copyright (c) 2016 The Python Packaging Authority (PyPA)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

@@ -29,7 +29,8 @@ def register_operation(operation_wrapper=base_wrappers.LocalOperation()):
     def register_operation_decorator(func):
 
         operation_wrapper.load_wrapped_operation(func)
-        operation_registry.OperationRegistry.register_operation(operation_wrapper)
+        operation_registry_cls = operation_registry.OperationRegistry
+        operation_registry_cls.register_operation(operation_wrapper)
 
         def func_wrapper(*args, **kwargs):
             return func(*args, **kwargs)

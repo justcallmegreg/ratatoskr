@@ -39,6 +39,3 @@ class OperationRegistry:
         arguments = event['args']
         operation_wrapper = OperationRegistry.registry[operation_name]
         return operation_wrapper.call(**arguments)
-
-
-

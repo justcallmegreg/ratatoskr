@@ -41,7 +41,7 @@ from ratatoskr import register_operation, dispatch_event
 
 @register_operation
 def return_me(a):
-    print a
+    return a
 
 
 @register_operation
@@ -51,7 +51,7 @@ def return_24():
 
 ### AWS Lambda handler
 def handler(event, context):
-    dispatch_event(event)
+    return dispatch_event(event)
 
 
 ### Example event and handler call

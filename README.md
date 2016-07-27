@@ -51,7 +51,7 @@ def return_24():
 
 ### AWS Lambda handler
 def handler(event, context):
-    dispatch_operation(event)
+    dispatch_event(event)
 
 
 ### Example event and handler call
@@ -70,7 +70,7 @@ another_example_event = {
     'args': {}
 }
 
-handler(another_example_Event, context)  ===> returns 24
+handler(another_example_event, context)  ===> returns 24
 ```
 
 ## Installation

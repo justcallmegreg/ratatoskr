@@ -98,7 +98,7 @@ PR's for testing new cases is always welcome!
 * Write a test which shows that the bug was fixed or that the feature works as expected.
 
   - Use ``tox`` command to run all the tests in all locally available python version.
-
+* Install `pre-commit` via `pip install pre-commit` then `pre-commit install`.
 * Send a pull request and bug the maintainer until it gets merged and published. :).
 
 For more instructions see `TESTING.rst`.

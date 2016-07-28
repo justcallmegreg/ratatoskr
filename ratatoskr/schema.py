@@ -1,4 +1,5 @@
 from exceptions import Exception
+from internal_logger import LOG
 
 
 class SchemaValidationError(Exception):
@@ -20,7 +21,8 @@ class ValidOperationRegistryEventSchema:
         has_operation = 'operation' in payload
         has_args = 'args' in payload
         if not isinstance(event, dict) or not has_operation or not has_args:
-                raise SchemaValidationError(
-                    '"event" is not a dict or "operation" is not specified'
-                )
+            LOG.error('event schema validation failed, payload: %s', event)
+            raise SchemaValidationError(
+                '"event" is not a dict or "operation" is not specified'
+            )
         return event

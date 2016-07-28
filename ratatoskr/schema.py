@@ -1,4 +1,3 @@
-from exceptions import Exception
 from internal_logger import LOG
 
 

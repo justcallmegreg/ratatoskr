@@ -5,11 +5,11 @@ from internal_logger import LOG
 
 
 class InvalidOperationWrapperError(Exception):
-        pass
+    pass
 
 
 class OperationAlreadyRegisteredError(Exception):
-        pass
+    pass
 
 
 class OperationRegistry:

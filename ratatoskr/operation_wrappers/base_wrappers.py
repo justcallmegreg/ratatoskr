@@ -1,10 +1,3 @@
-from exceptions import NotImplementedError
-
-
-class NoOperation:
-    pass
-
-
 class OperationWrapper:
 
     def __init__(self):

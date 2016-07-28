@@ -23,10 +23,6 @@ def protectron(input_schema, output_schema=schema.EmptySchema()):
 
             return output
 
-        def peel_decorator():
-            return func
-
-        func_wrapper.peel_decorator = peel_decorator
         return func_wrapper
 
     return protectron_decorator

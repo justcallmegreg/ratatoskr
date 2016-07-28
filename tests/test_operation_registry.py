@@ -56,13 +56,32 @@ def test_operation_dispatch_with_args():
 def test_decorator_without_parantheses():
 
     @register_operation
-    def foo3(value):
+    def foo4(value):
         return value
 
     event = {
-        'operation': 'foo3',
+        'operation': 'foo4',
         'args': {'value': 69}
     }
 
     assert dispatch_event(event) == 69
 
+
+def test_decorator_multiple_registartions():
+
+    @register_operation
+    def foo5(value):
+        return value
+
+    with pytest.raises(ratatoskr.operation_registry.OperationAlreadyRegisteredError):
+
+        @register_operation
+        def foo4(value):
+            return value
+
+    event = {
+        'operation': 'foo4',
+        'args': {'value': 69}
+    }
+
+    assert dispatch_event(event) == 69

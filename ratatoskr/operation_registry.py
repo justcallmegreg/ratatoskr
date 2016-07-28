@@ -8,6 +8,10 @@ class InvalidOperationWrapperError(Exception):
         pass
 
 
+class OperationAlreadyRegisteredError(Exception):
+        pass
+
+
 class OperationRegistry:
 
     registry = {}
@@ -24,6 +28,12 @@ class OperationRegistry:
             )
 
         operation_name = operation_wrapper.get_wrapped_operation_name()
+
+        if operation_name in OperationRegistry.registry:
+            LOG.error('operation [%s] is already registered in OperationRegistry',
+                      operation_name)
+            raise OperationAlreadyRegisteredError('%s' % operation_name)
+
         OperationRegistry.registry[operation_name] = operation_wrapper
 
         LOG.info('operation [%s] registered, operation_wrapper is [%s]',

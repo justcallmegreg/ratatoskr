@@ -1,8 +1,8 @@
 try:
     import boto3
 except ImportError:
-        raise ImportError('AWSLambdaOperation cannot be loaded'
-                          'for "boto3" module is not found.')
+    raise ImportError('AWSLambdaOperation cannot be loaded'
+                      'for "boto3" module is not found.')
 
 import json
 

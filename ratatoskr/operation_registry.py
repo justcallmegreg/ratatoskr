@@ -18,6 +18,16 @@ class OperationRegistry:
 
     @classmethod
     def register_operation(cls, operation_wrapper):
+        """
+            Method to store an operation in the registry.
+
+            @raises: InvalidOperationWrapperError if `operation_wrapper`
+            is not a sublass of OperationWrapper to ensure the neccesarry
+            methods must be implemented
+            @raises: OperationAlreadyRegisteredError if operation has been
+            already registered
+        """
+
         if not issubclass(operation_wrapper.__class__, OperationWrapper):
 
             LOG.error('operation_wrapper [%s] is not a sublass of OperationWrapper',
@@ -41,20 +51,40 @@ class OperationRegistry:
 
     @classmethod
     def deregister_operation(cls, operation_name):
+        """
+            Method to deregister an operation from the registry.
+
+            After deregistering, the operation can't be called anymore.
+        """
         del OperationRegistry.registry[operation_name]
         LOG.info('operation [%s] deregistered', operation_name)
 
     @classmethod
     def list_operations(cls):
+        """
+            Method to list the current operations registered in the registry.
+
+            Possible values for event['operation'].
+        """
         return OperationRegistry.registry.keys()
 
     @classmethod
     def is_registered(cls, operation_name):
+        """
+            Returns if an operation is registered
+        """
         return operation_name in OperationRegistry.registry
 
     @classmethod
     @protectron(input_schema=ValidOperationRegistryEventSchema())
     def call(cls, event):
+        """
+            Method to dispatch event according to `event['operation']`.
+
+            Registry is searched for the operation by the registered name
+            if found the connecting operation_wrapper's call method is executed
+            that implements how to carry out the operation.
+        """
         operation_name = event['operation']
         arguments = event['args']
         operation_wrapper = OperationRegistry.registry[operation_name]

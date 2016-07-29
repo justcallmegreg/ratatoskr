@@ -2,10 +2,16 @@ from internal_logger import LOG
 
 
 class SchemaValidationError(Exception):
+    """
+        Raised on unmatching schema.
+    """
     pass
 
 
 class EmptySchema:
+    """
+        Matches any payload.
+    """
 
     @classmethod
     def __call__(cls, event):
@@ -13,6 +19,9 @@ class EmptySchema:
 
 
 class ValidOperationRegistryEventSchema:
+    """
+        Matches if the `event` has all the required keys.
+    """
 
     @classmethod
     def __call__(cls, event):

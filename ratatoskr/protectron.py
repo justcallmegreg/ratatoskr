@@ -5,7 +5,21 @@ from internal_logger import LOG
 
 
 def protectron(input_schema, output_schema=schema.EmptySchema()):
+    """
+        Decorator for validating inputs and outputs according to the given
+        schema.
 
+        Both input and output schema must be a callable object, that
+        raises `SchemaValidationException` if the schema is not fitting
+        the payload, returning the payload otherwise
+
+        @input `input_schema` is tested against the arguments of the function
+        @input `output_schema` is tested against the return value of the function
+
+        @default `output_schema` is tested against EmptySchema by default that
+        matches any payload
+
+    """
     def protectron_decorator(func):
 
         def func_wrapper(*args, **kwargs):

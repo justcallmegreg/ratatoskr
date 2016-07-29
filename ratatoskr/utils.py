@@ -3,6 +3,12 @@ from functools import wraps
 
 
 def args_to_dict(func, args):
+    """
+        Returns argument names as values as key-value pairs.
+
+        @input `func` that is a function object
+        @input `args` argument list that the functions is called with
+    """
     if sys.version_info >= (3, 0):
         arg_count = func.__code__.co_argcount
         arg_names = func.__code__.co_varnames[:arg_count]
@@ -18,6 +24,9 @@ def args_to_dict(func, args):
 
 
 def merge_args_with_kwargs(args_dict, kwargs_dict):
+    """
+        Merge args with kwargs.
+    """
     ret = args_dict.copy()
     ret.update(kwargs_dict)
     return ret

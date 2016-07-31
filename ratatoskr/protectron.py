@@ -22,6 +22,7 @@ def protectron(input_schema, output_schema=schema.EmptySchema()):
     """
     def protectron_decorator(func):
 
+        @utils.wraps(func)
         def func_wrapper(*args, **kwargs):
             args_dict = utils.args_to_dict(func, args)
             arguments = utils.merge_args_with_kwargs(args_dict, kwargs)

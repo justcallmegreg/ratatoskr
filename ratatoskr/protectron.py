@@ -31,7 +31,7 @@ def protectron(input_schema, output_schema=schema.EmptySchema()):
             LOG.debug('input schema [%s] is applied to arguments [%s]',
                       input_schema, arguments)
 
-            output = output_schema(func(*args, **kwargs))
+            output = output_schema(func(**arguments))
 
             LOG.debug('output schema [%s] is applied to return value[%s]',
                       output_schema, output)

@@ -1,7 +1,7 @@
 import pytest
 
 from ratatoskr import protectron
-from voluptuous import Schema, Invalid
+from voluptuous import Schema, Invalid, Required
 
 
 def test_protectron_empty_input_schema():
@@ -49,6 +49,15 @@ def test_protectron_kwargs_input_schema_unmatch():
 
     with pytest.raises(Invalid):
         foo(a='42', b=42)
+
+
+def test_protectron_kwargs_input_schema_with_default():
+
+    @protectron(Schema({Required('a', default=42): int, 'b': int}))
+    def foo(a, b):
+        return a
+
+    assert foo(b=42) == 42
 
 
 def test_protectron_empty_output_schema():

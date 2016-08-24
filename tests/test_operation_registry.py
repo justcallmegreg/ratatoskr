@@ -174,3 +174,14 @@ def test_operation_wrapper_call_is_not_implemented():
 
     with pytest.raises(NotImplementedError):
         assert dispatch_event(event) == 69
+
+
+def test_operation_registry_unregistered_operation():
+
+    event = {
+        'operation': 'dummy_unregistered_operation',
+        'args': {}
+    }
+
+    with pytest.raises(ratatoskr.operation_registry.UnregisteredOperationError):
+        dispatch_event(event)

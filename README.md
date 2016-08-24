@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/ngergo/ratatoskr/badge.svg?branch=master)](https://coveralls.io/github/ngergo/ratatoskr?branch=master)
 [![Code Health](https://landscape.io/github/ngergo/ratatoskr/master/landscape.svg?style=flat)](https://landscape.io/github/ngergo/ratatoskr/master)
 [![Stories in Ready](https://badge.waffle.io/ngergo/ratatoskr.svg?label=ready&title=Ready)](http://waffle.io/ngergo/ratatoskr)
+[![Requirements Status](https://requires.io/github/ngergo/ratatoskr/requirements.svg?branch=master)](https://requires.io/github/ngergo/ratatoskr/requirements/?branch=master)
 
 __Ratatoskr__ is a library written in Python to make the development of AWS Lambdas easier and more secure. It supports implementing "singleshot" operations that can be reached from an AWS Lambda function and validating the input parameters to avoid unnecessary boilerplate for argument checking. 
 

@@ -12,6 +12,10 @@ class OperationAlreadyRegisteredError(Exception):
     pass
 
 
+class UnregisteredOperationError(Exception):
+    pass
+
+
 class OperationRegistry:
 
     registry = {}
@@ -87,7 +91,10 @@ class OperationRegistry:
         """
         operation_name = event['operation']
         arguments = event['args']
-        operation_wrapper = OperationRegistry.registry[operation_name]
+        try:
+            operation_wrapper = OperationRegistry.registry[operation_name]
+        except KeyError:
+            raise UnregisteredOperationError('operation [%s] is not registered' % operation_name)
         LOG.debug('event [%s] is dispatched to operation [%s]',
                   event, operation_name)
         LOG.info('operation [%s] is called',

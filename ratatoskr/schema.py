@@ -1,11 +1,5 @@
 from internal_logger import LOG
-
-
-class SchemaValidationError(Exception):
-    """
-        Raised on unmatching schema.
-    """
-    pass
+from exceptions import SchemaValidationError
 
 
 class EmptySchema:

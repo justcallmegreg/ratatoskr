@@ -1,4 +1,4 @@
-#ratatoskr
+# ratatoskr
 
 [![Build Status](https://travis-ci.org/ngergo/ratatoskr.svg?branch=master)](https://travis-ci.org/ngergo/ratatoskr)
 [![Coverage Status](https://coveralls.io/repos/github/ngergo/ratatoskr/badge.svg?branch=master)](https://coveralls.io/github/ngergo/ratatoskr?branch=master)
@@ -12,75 +12,109 @@ __Ratatoskr__ is a library written in Python to make the development of AWS Lamb
 
 ### Protect arguments
 
+#### About __@protectron__
+
+* awaits a callable object (`__call__` method)
+    * return the `event` on <font color='green'>success</font>
+    * raises `SchemaValidationException` on <font color='red'>failure</font>
+
+#### Using your own schema validators
+
 ```python
+from ratatoskr import protectron, exceptions
 
-from ratatoskr import protectron
-from ratatoskr.schema import SchemaValidationError
-
-
-def is_int(n):
-    if not isinstance(n, int):
-        raise SchemaValidationError
-    return n
-
+def is_int(event):
+    for k, v in event.iteritems():
+        if not isinstance(v, int):
+            raise exceptions.SchemaValidationError
+    return event
 
 @protectron(is_int)
-def multiple_by_two(num):
-    return 2 * num
+def multiply_by_two(num):
+    return num * 2
+
+multiply_by_two(42)   # returns 84
+multiply_by_two("42") # raises SchemaValudationError
+```
+
+#### Using [voluptuous](https://github.com/alecthomas/voluptuous)
+
+```python
+from ratatoskr import protectron
+from voluptuous import Schema
+
+@protectron(Schema({
+    'num': int
+}))
+def multiply_by_two(num):
+    return num * 2
 
 
-multiple_by_two(42) ====> 42
-multiple_by_two("42") ====> Exception: SchemaValidationError("expected int for data['num']"
+@protectron(Schema({
+    'a': int,
+    'b': int
+}))
+def multiply(a, b):
+    return a * b
 
+
+def validate_email(email):
+    # ... code to validate email comes here ...
+
+
+@protectron(Schema({
+    'email': validate_email,
+}))
+def send_email(email):
+    # ... code to send email comes here ...
+
+
+multiply_by_two(42)     # returns 84
+multiply_by_two("42")   # raises SchemaValudationError
+multiply(2, 21)         # returns 42
+
+send_email("no-reply@example.org") # OK
+send_email("example.org") # raises SchemaValudationError
 ```
 
 ### Dispatch event
 
+#### Managing database table
+
 ```python
-
-from ratatoskr import register_operation, dispatch_event
-
+from ratatoskr import dispatch_event, register_operation
 
 @register_operation
-def return_me(a):
-    return a
-
+def insert(item):
+    # ... code to insert to db ...
 
 @register_operation
-def return_24():
-    return 24
+def remove(item):
+    # ... code to remove from db ...
 
-
-### AWS Lambda handler
 def handler(event, context):
     return dispatch_event(event)
-
-
-### Example event and handler call
-
-example_event = {
-    'operation': 'return_me',
-    'args': {
-        'a': 42
-    }
-}
-
-handler(exampe_event, context)  ===> returns 42
-
-another_example_event = {
-    'operation': 'return_24',
-    'args': {}
-}
-
-handler(another_example_event, context)  ===> returns 24
 ```
 
+Assuming the following `event`, lambda will insert the item to the db.
+
+```python
+event = {
+    "operation": "insert",
+    "args": {
+        "item": {
+            "username": "batman",
+            "password": "s3cR3tPaZzW0rD"
+        }
+    }
+ }
+```
 ## Installation
 
 The package has not been deployed to `pip` yet.
 You can install it by:
 
-* cloning the repository and run `pip install -t .`
+* cloning the repository and run `pip install .`
 * __OR__ run `pip install git+https://github.com/ngergo/ratatoskr.git`
 
 ## Tests
@@ -99,7 +133,7 @@ PR's for testing new cases is always welcome!
 * Fork the repository on GitHub.
 * Write a test which shows that the bug was fixed or that the feature works as expected.
 
-  - Use ``tox`` command to run all the tests in all locally available python version.
+  - Use `tox` command to run all the tests in all locally available python version.
 * Install `pre-commit` via `pip install pre-commit` then `pre-commit install`.
 * Send a pull request and bug the maintainer until it gets merged and published. :).
 

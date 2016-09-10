@@ -139,9 +139,9 @@ PR's for testing new cases is always welcome!
 
 For more instructions see `TESTING.rst`.
 
-## License
+## MIT License
 
-Copyright (c) 2016 The Python Packaging Authority (PyPA)
+Copyright (c) 2016 Gergő Nagy
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

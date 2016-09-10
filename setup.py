@@ -2,10 +2,12 @@ from setuptools import setup, find_packages
 from os import path
 from pip.req import parse_requirements
 
-PROJECT_URL='http://github.com/ngergo/ratatoskr'
-VERSION='0.1.0'
-
 here = path.abspath(path.dirname(__file__))
+
+version_file = open(path.join(here, 'VERSION'))
+
+PROJECT_URL = 'http://github.com/ngergo/ratatoskr'
+VERSION = version_file.read().strip()
 
 install_reqs = parse_requirements(
     path.join(here, 'requirements.txt'),

@@ -3,6 +3,7 @@ include LICENSE.txt
 include requirements.txt
 include requirements-dev.txt
 include README.rst
+include VERSION
 
 
 # Include the data files

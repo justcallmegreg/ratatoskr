@@ -2,6 +2,9 @@ from setuptools import setup, find_packages
 from os import path
 from pip.req import parse_requirements
 
+PROJECT_URL='http://github.com/ngergo/ratatoskr'
+VERSION='0.1.0'
+
 here = path.abspath(path.dirname(__file__))
 
 install_reqs = parse_requirements(
@@ -18,10 +21,10 @@ development_requirements = [str(ir.req) for ir in dev_reqs]
 
 setup(
     name='ratatoskr',
-    version='0.1.0',
+    version=VERSION,
     description='TODO',
-    url='https://github.com/ngergo/ratatoskr',
-    download_url='https://github.com/ngergo/ratatoskr/tarball/0.1.0',
+    url=PROJECT_URL,
+    download_url=PROJECT_URL + '/tarball/' + VERSION,
     author='Gergo Nagy',
     author_email='grigori.grant@gmail.com',
     license='MIT',

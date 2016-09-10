@@ -32,7 +32,7 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     url=PROJECT_URL,
-    download_url=PROJECT_URL + '/tarball/' + VERSION,
+    download_url=PROJECT_URL + '/tarball/v' + VERSION,
     author='Gergo Nagy',
     author_email='grigori.grant@gmail.com',
     license='MIT',

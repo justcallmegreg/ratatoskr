@@ -114,8 +114,8 @@ event = {
 The package has not been deployed to `pip` yet.
 You can install it by:
 
-* cloning the repository and run `pip install .`
-* __OR__ run `pip install git+https://github.com/ngergo/ratatoskr.git`
+* cloning the repository/or downloading release tarball and run `pip install .`
+* __OR__ run `pip install ratatoskr`
 
 ## Tests
 

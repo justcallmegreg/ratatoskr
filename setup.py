@@ -9,6 +9,12 @@ version_file = open(path.join(here, 'VERSION'))
 PROJECT_URL = 'http://github.com/ngergo/ratatoskr'
 VERSION = version_file.read().strip()
 
+DESCRIPTION = """
+Ratatoskr is a library written in Python to make the development of AWS Lambdas easier and more secure.
+It supports implementing "singleshot" operations that can be reached from an AWS Lambda function and
+validating the input parameters to avoid unnecessary boilerplate for argument checking.
+"""
+
 install_reqs = parse_requirements(
     path.join(here, 'requirements.txt'),
     session=False
@@ -24,7 +30,7 @@ development_requirements = [str(ir.req) for ir in dev_reqs]
 setup(
     name='ratatoskr',
     version=VERSION,
-    description='TODO',
+    description=DESCRIPTION,
     url=PROJECT_URL,
     download_url=PROJECT_URL + '/tarball/' + VERSION,
     author='Gergo Nagy',

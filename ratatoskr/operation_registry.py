@@ -5,7 +5,8 @@ from internal_logger import LOG
 from exceptions import (
     InvalidOperationWrapperError,
     OperationAlreadyRegisteredError,
-    UnregisteredOperationError
+    UnregisteredOperationError,
+    UnauthorizedAccessError
 )
 
 
@@ -84,6 +85,7 @@ class OperationRegistry:
         """
         operation_name = event['operation']
         arguments = event['args']
+        auth = event.get('auth', None)
         try:
             operation_wrapper = OperationRegistry.registry[operation_name]
         except KeyError:
@@ -92,4 +94,9 @@ class OperationRegistry:
                   event, operation_name)
         LOG.info('operation [%s] is called',
                  operation_name)
-        return operation_wrapper.call(**arguments)
+        if operation_wrapper.has_authorizer():
+            judgement = operation_wrapper.authorize_call(auth)
+        if judgement is not None and judgement.is_granted():
+            return operation_wrapper.call(**arguments)
+        else:
+            raise UnauthorizedAccessError('operation [%s] cannot be called with the claimed identity' % operation_name)

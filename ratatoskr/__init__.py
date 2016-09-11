@@ -3,18 +3,27 @@ import operation_registry
 import operation_wrappers.base_wrappers as base_wrappers
 import types
 import exceptions
+import authorizers.base_authorizers as base_authorizers
 
 from protectron import protectron
 
 
 @utils.doublewrap
-def register_operation(func, operation_wrapper=base_wrappers.LocalOperation):
+def register_operation(func,
+                       operation_wrapper=base_wrappers.LocalOperation,
+                       authorizer=base_authorizers.NoAuthorizer):
 
     if isinstance(operation_wrapper, types.ClassType):
         operation_wrapper_instance = operation_wrapper()
     else:
         operation_wrapper_instance = operation_wrapper
 
+    if isinstance(authorizer, types.TypeType):
+        authorizer_instance = authorizer()
+    else:
+        authorizer_instance = authorizer
+
+    operation_wrapper_instance.load_authorizer(authorizer_instance)
     operation_wrapper_instance.load_wrapped_operation(func)
     operation_registry_cls = operation_registry.OperationRegistry
     operation_registry_cls.register_operation(operation_wrapper_instance)

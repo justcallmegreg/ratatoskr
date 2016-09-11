@@ -4,7 +4,19 @@ class OperationWrapper:
     """
 
     def __init__(self):
-        pass
+        self.authorizer = None
+
+    def load_authorizer(self, authorizer):
+        self.authorizer = authorizer
+
+    def unload_authorizer(self):
+        self.authorizer = None
+
+    def has_authorizer(self):
+        return self.authorizer is not None
+
+    def authorize_call(self, identity):
+        return self.authorizer(identity)
 
     def load_wrapped_operation(self, func):
         """

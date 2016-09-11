@@ -104,6 +104,9 @@ def test_operation_wrapper_is_not_subclass():
 
     class DummyOperationWrapper:
 
+        def load_authorizer(self, authorizer):
+            pass
+
         def load_wrapped_operation(self, func):
             self.wrapped_operation = func
 

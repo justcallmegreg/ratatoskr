@@ -26,3 +26,13 @@ class SchemaValidationError(Exception):
         Raised on unmatching schema.
     """
     pass
+
+
+class UnauthorizedAccessError(Exception):
+    """
+        Raised on dispatching event to a a resource that cannot be
+        used with the claimed identity.
+    """
+    pass
+
+

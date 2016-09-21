@@ -1,10 +1,9 @@
 import utils
-import schema
 
 from internal_logger import LOG
 
 
-def protectron(input_schema, output_schema=schema.EmptySchema()):
+def protectron(input_schema, output_schema=lambda event: event):
     """
         Decorator for validating inputs and outputs according to the given
         schema.
@@ -16,8 +15,7 @@ def protectron(input_schema, output_schema=schema.EmptySchema()):
         @input `input_schema` is tested against the arguments of the function
         @input `output_schema` is tested against the return value of the function
 
-        @default `output_schema` is tested against EmptySchema by default that
-        matches any payload
+        @default `output_schema` is tested against no schema
 
     """
     def protectron_decorator(func):

@@ -2,16 +2,6 @@ from internal_logger import LOG
 from exceptions import SchemaValidationError
 
 
-class EmptySchema:
-    """
-        Matches any payload.
-    """
-
-    @classmethod
-    def __call__(cls, event):
-        return event
-
-
 class ValidOperationRegistryEventSchema:
     """
         Matches if the `event` has all the required keys.

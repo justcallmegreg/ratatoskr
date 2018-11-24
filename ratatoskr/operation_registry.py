@@ -83,7 +83,9 @@ class OperationRegistry:
             that implements how to carry out the operation.
         """
         operation_name = event['operation']
-        arguments = event['args']
+        meta = event.get('meta', {})
+        arguments = event.get('args', {})
+
         try:
             operation_wrapper = OperationRegistry.registry[operation_name]
         except KeyError:
@@ -92,4 +94,5 @@ class OperationRegistry:
                   event, operation_name)
         LOG.info('operation [%s] is called',
                  operation_name)
+
         return operation_wrapper.call(**arguments)

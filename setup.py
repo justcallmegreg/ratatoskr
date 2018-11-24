@@ -37,7 +37,7 @@ setup(
     url=PROJECT_URL,
     download_url=PROJECT_URL + '/tarball/v' + VERSION,
     author='Gergo Nagy',
-    author_email='grigori.grant@gmail.com',
+    author_email='contact@gergonagy.com',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',

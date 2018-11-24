@@ -20,6 +20,12 @@ class OperationWrapper:
         """
         return self.wrapped_operation.func_name
 
+    def help(self):
+        """
+            Method that returns documentation for the wrapped given function.
+        """
+        return self.wrapped_operation.__doc__
+
     def call(self, *args, **kwargs):
         """
             Method that implements the way of calling the wrapped function.

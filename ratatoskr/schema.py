@@ -20,7 +20,7 @@ class ValidOperationRegistryEventSchema:
     @classmethod
     def __call__(cls, event):
         payload = event['event']
-        required_keys = ['operation', 'args']
+        required_keys = ['operation']
         if not isinstance(event, dict) or any([key not in payload for key in required_keys]):
             LOG.error('event schema validation failed, payload: %s', event)
             raise SchemaValidationError(

@@ -95,4 +95,7 @@ class OperationRegistry:
         LOG.info('operation [%s] is called',
                  operation_name)
 
+        if meta.get('doc', False):
+            return operation_wrapper.help()
+
         return operation_wrapper.call(**arguments)

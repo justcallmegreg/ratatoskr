@@ -26,5 +26,11 @@ def register_operation(func, operation_wrapper=base_wrappers.LocalOperation):
     return wrapper
 
 
+def deregister_operation(operation_name):
+
+    operation_registry_cls = operation_registry.OperationRegistry
+    operation_registry_cls.deregister_operation(operation_name)
+
+
 def dispatch_event(event):
     return operation_registry.OperationRegistry.call(event)

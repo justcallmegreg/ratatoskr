@@ -53,7 +53,8 @@ class OperationRegistry:
 
             After deregistering, the operation can't be called anymore.
         """
-        del OperationRegistry.registry[operation_name]
+        if operation_name in OperationRegistry.registry:
+            del OperationRegistry.registry[operation_name]
         LOG.info('operation [%s] deregistered', operation_name)
 
     @classmethod

@@ -108,7 +108,7 @@ def test_operation_wrapper_is_not_subclass():
             self.wrapped_operation = func
 
         def get_wrapped_operation_name(self):
-            return self.wrapped_operation.func_name
+            return self.wrapped_operation.__name__
 
     with pytest.raises(ratatoskr.operation_registry.InvalidOperationWrapperError):
 
@@ -161,7 +161,7 @@ def test_operation_wrapper_call_is_not_implemented():
             self.wrapped_operation = func
 
         def get_wrapped_operation_name(self):
-            return self.wrapped_operation.func_name
+            return self.wrapped_operation.__name__
 
     @register_operation(operation_wrapper=DummyOperationWrapper())
     def foo12(value):

@@ -18,7 +18,7 @@ class OperationWrapper:
             Returns the name (id) of the operation that was loaded
             into OperatioWrapper.
         """
-        return self.wrapped_operation.func_name
+        return self.wrapped_operation.__name__
 
     def help(self):
         """
@@ -47,7 +47,7 @@ class LocalOperation(OperationWrapper):
             Returns the name (id) of the operation that was loaded
             into OperatioWrapper.
         """
-        return self.custom_name if self.custom_name != "" else self.wrapped_operation.func_name
+        return self.custom_name if self.custom_name != "" else self.wrapped_operation.__name__
 
     def call(self, *args, **kwargs):
         return self.wrapped_operation(*args, **kwargs)

@@ -1,5 +1,5 @@
-from internal_logger import LOG
-from exceptions import SchemaValidationError
+from .internal_logger import LOG
+from .exceptions import SchemaValidationError
 
 
 class EmptySchema:

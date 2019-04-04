@@ -1,16 +1,18 @@
-import utils
-import operation_registry
-import operation_wrappers.base_wrappers as base_wrappers
-import types
-import exceptions
+from . import utils
+from . import operation_registry
+from .operation_wrappers import base_wrappers
 
-from protectron import protectron
+import inspect
+
+from . import exceptions
+
+from .protectron import protectron
 
 
 @utils.doublewrap
 def register_operation(func, operation_wrapper=base_wrappers.LocalOperation):
 
-    if isinstance(operation_wrapper, types.ClassType):
+    if inspect.isclass(operation_wrapper):
         operation_wrapper_instance = operation_wrapper()
     else:
         operation_wrapper_instance = operation_wrapper

@@ -1,8 +1,8 @@
-from protectron import protectron
-from schema import ValidOperationRegistryEventSchema
-from operation_wrappers.base_wrappers import OperationWrapper
-from internal_logger import LOG
-from exceptions import (
+from .protectron import protectron
+from .schema import ValidOperationRegistryEventSchema
+from .operation_wrappers.base_wrappers import OperationWrapper
+from .internal_logger import LOG
+from .exceptions import (
     InvalidOperationWrapperError,
     OperationAlreadyRegisteredError,
     UnregisteredOperationError

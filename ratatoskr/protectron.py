@@ -1,7 +1,7 @@
-import utils
-import schema
+from . import utils
+from . import schema
 
-from internal_logger import LOG
+from .internal_logger import LOG
 
 
 def protectron(input_schema, output_schema=schema.EmptySchema()):
